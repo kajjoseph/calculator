@@ -3,11 +3,9 @@ from tkinter.constants import *
 
 
 class DecimalButton(tk.Button):
-
     '''
     Button that adds a decimal to the string stored in Calculator.display_data
     '''
-    
     def __init__(self, master):
         
         self.master = master
@@ -25,11 +23,9 @@ class DecimalButton(tk.Button):
 
 
 class NumberButton(tk.Button):
-
     '''
     Button that adds the assigned number to the string stored in Calculator.display_data
     '''
-
     def __init__(self, master, number):
         
         self.master = master
@@ -47,11 +43,9 @@ class NumberButton(tk.Button):
 
 
 class OperatorButton(tk.Button):
-
     '''
     Button that adds the assigned operator to the string stored in Calculator.display_data
     '''
-
     operators = ['+', '-', '*', '/']
 
     def __init__(self, master, operator):
@@ -68,11 +62,9 @@ class OperatorButton(tk.Button):
 
 
 class EqualButton(tk.Button):
-    
     '''
     Button that evaluates the string stored in Calculator.display_data
     '''
-
     def __init__(self, master):
         
         self.master = master
@@ -91,11 +83,9 @@ class EqualButton(tk.Button):
 
 
 class Calculator(tk.Frame):
-
     '''
     Frame for storing and displaying buttons and the display
     '''
-
     def __init__(self, master):
         
         self.master = master
@@ -136,6 +126,7 @@ class Calculator(tk.Frame):
 if __name__ == '__main__':
     root = tk.Tk()
     root.title('Calculator')
+    root.config(width=500)
     calc = Calculator(root)
     calc.pack()
     root.mainloop()
