@@ -12,7 +12,12 @@ class DecimalButton(tk.Button):
         tk.Button.__init__(self, master, text='.', command=self.press)
 
     def press(self):
-        
+
+        if self.master.answered:
+            self.master.display_data = '0.'
+            self.master.update_display()
+            self.master.answered = False
+            return
         for i in self.master.display_data[::-1]:
             if i == '.':
                 return
@@ -34,9 +39,10 @@ class NumberButton(tk.Button):
 
     def press(self):
         
-        if self.master.display_data == '0':
+        if self.master.display_data == '0' or self.master.answered:
             self.master.display_data = self.number
             self.master.update_display()
+            self.master.answered = False
         else:
             self.master.display_data += self.number
             self.master.update_display()
@@ -56,7 +62,9 @@ class OperatorButton(tk.Button):
 
     def press(self):
         
-        if not self.master.display_data[-1] in OperatorButton.operators:
+        if self.master.display_data[-1] not in OperatorButton.operators:
+            if self.master.display_data[-1] == '.':
+                self.master.display_data += '0'
             self.master.display_data += self.operator
             self.master.update_display()
 
@@ -71,20 +79,25 @@ class EqualButton(tk.Button):
         tk.Button.__init__(self, master, text='=', command=self.press)
 
     def press(self):
-        
-        try:
-            self.master.display_data = str(eval(self.master.display_data))
-            self.master.update_display()
-            
-        except Exception as exc:
-            self.master.display_data = 'ERROR!'
-            print(exc)
-            self.master.update_display()
+
+        if not self.master.answered:
+            if self.master.display_data[-1] == '.':
+                self.master.display_data += '0'
+                self.master.update_display()
+            try:
+                self.master.display_data = str(eval(self.master.display_data))
+                self.master.update_display()
+                
+            except Exception as exc:
+                self.master.display_data = 'ERROR!'
+                print(exc)
+                self.master.update_display()
+            self.master.answered = True
 
 
 class Calculator(tk.Frame):
     '''
-    Frame for storing and displaying buttons and the display
+    Frame for storing and representing buttons and the display
     '''
     def __init__(self, master):
         
